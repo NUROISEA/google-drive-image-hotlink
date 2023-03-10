@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1/new.min.css">
+  <style>
+    input {
+      width: 100%;
+      font-family: monospace;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+    }
+  </style>
+
+  <title>Google Drive Image Hotlink 🔥🔗</title>
+</head>
+<body>
+  <header>
+    <h1>Google Drive Image Hotlink 🔥🔗</h1>
+  </header>
+
+  <blockquote>
+    <i>because im too broke to use actual image cdns 😭</i>
+  </blockquote>
+
+  <h2>👇 Convert here</h2>
+  <h4>Google Drive Shared Link:</h4>
+  Make sure that this is the format: <br>
+  <code>https://drive.google.com/file/d/xxxxx/view?usp=sharing</code> <br>
+  (i dont have link validation, too lazy 😅)
+  <input type="text" name="input" id="input" placeholder="https://drive.google.com/file/d/FILE-ID-OF-YOUR-FILE/view?usp=sharing">
+  <button id="convert-button" onclick="convert()">👉 Convert 👈</button>
+
+  <div id="results" class="hidden">
+    <h2>✨ Results <small>(you can click to copy)</small></h2>
+    
+    <h3>drive.google link 🔗</h3>
+    <pre id="dg-result" onclick="copyToClipboard(this)"></pre>
+    
+    <h3>lh3.googleusercontent link 🔗</h3>
+    <pre id="lh3-result" onclick="copyToClipboard(this)"></pre>
+
+    <h3>🖼 Image to confirm it works ✨</h3>
+    <h4>drive.google</h4>
+    <img id="sample-image-dg">
+    <h4>lh3.googleusercontent</h4>
+    <img id="sample-image-lh3">
+  </div>
+
+  <footer>
+    <hr>
+    <small>A site made in ~30 minutes out of frustration</small>
+  </footer>
+
+  <script>
+    function convert() {
+      const inputLink = document.getElementById("input").value.trim();
+
+      if (!inputLink) {
+        alert("🤣😂 Enter a link lol 🤣😂");
+        return;
+      }
+
+      // will not work if the link does not have file/d/(eez nuts) formatting
+      //                                 v-------v
+      // https://drive.google.com/file/d/gibberish/view?usp=sharing
+      //                                 ^-------^
+
+      const regex = /\/file\/d\/(.*)\/view\?/;
+      const fileId = inputLink.match(regex)[1]; // only one
+
+      const dgLink = `https://drive.google.com/uc?id=${fileId}`;
+      const lh3link = `https://lh3.googleusercontent.com/d/${fileId}`
+
+      document.getElementById("dg-result").innerText = dgLink;
+      document.getElementById("lh3-result").innerText = lh3link;
+
+      document.getElementById("sample-image-dg").src = dgLink;
+      document.getElementById("sample-image-lh3").src = lh3link;
+
+      document.getElementById("results").classList.remove("hidden");
+    }
+
+    function copyToClipboard(element) { // chatgpt lets goooooo
+      const range = document.createRange();
+      range.selectNode(element);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+      window.getSelection().removeAllRanges();
+    }
+  </script>
+</body>
+</html>
